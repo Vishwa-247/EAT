@@ -1,42 +1,42 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import Header from '../../components/ui/Header';
-import WelcomeCard from './components/WelcomeCard';
-import MoodChart from './components/MoodChart';
-import QuickActions from './components/QuickActions';
-import RecentActivity from './components/RecentActivity';
-import ProgressTracker from './components/ProgressTracker';
-import Icon from '../../components/AppIcon';
-import Button from '../../components/ui/Button';
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import Icon from "../../components/AppIcon";
+import Button from "../../components/ui/Button";
+import Header from "../../components/ui/Header";
+import MoodChart from "./components/MoodChart";
+import ProgressTracker from "./components/ProgressTracker";
+import QuickActions from "./components/QuickActions";
+import RecentActivity from "./components/RecentActivity";
+import WelcomeCard from "./components/WelcomeCard";
 
 const Dashboard = () => {
-  const [currentMood, setCurrentMood] = useState('calm');
-  const [userName] = useState('Gayathri');
+  const [currentMood, setCurrentMood] = useState("calm");
+  const [userName] = useState("Gayathri");
   const [isVibeCheckActive, setIsVibeCheckActive] = useState(false);
   const [notifications, setNotifications] = useState([
     {
       id: 1,
-      type: 'reminder',
-      title: 'Daily Check-in',
-      message: 'Don\'t forget to log your mood today!',
+      type: "reminder",
+      title: "Daily Check-in",
+      message: "Don't forget to log your mood today!",
       timestamp: new Date(),
-      read: false
+      read: false,
     },
     {
       id: 2,
-      type: 'achievement',
-      title: 'Streak Achievement!',
-      message: 'You\'ve maintained a 5-day gratitude streak!',
+      type: "achievement",
+      title: "Streak Achievement!",
+      message: "You've maintained a 5-day gratitude streak!",
       timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
-      read: false
-    }
+      read: false,
+    },
   ]);
 
   useEffect(() => {
     // Simulate real-time updates
     const interval = setInterval(() => {
       // Update timestamp for demo purposes
-      console.log('Dashboard refreshed at:', new Date()?.toLocaleTimeString());
+      console.log("Dashboard refreshed at:", new Date()?.toLocaleTimeString());
     }, 30000);
 
     return () => clearInterval(interval);
@@ -44,48 +44,49 @@ const Dashboard = () => {
 
   const handleVibeCheck = async () => {
     setIsVibeCheckActive(true);
-    
+
     // Simulate facial emotion detection
     setTimeout(() => {
-      const detectedMoods = ['happy', 'calm', 'neutral', 'excited'];
-      const randomMood = detectedMoods?.[Math.floor(Math.random() * detectedMoods?.length)];
+      const detectedMoods = ["happy", "calm", "neutral", "excited"];
+      const randomMood =
+        detectedMoods?.[Math.floor(Math.random() * detectedMoods?.length)];
       setCurrentMood(randomMood);
       setIsVibeCheckActive(false);
-      
+
       // Add notification about vibe check result
       const newNotification = {
         id: Date.now(),
-        type: 'info',
-        title: 'Vibe Check Complete',
+        type: "info",
+        title: "Vibe Check Complete",
         message: `Your current mood appears to be ${randomMood}. How accurate is this?`,
         timestamp: new Date(),
-        read: false
+        read: false,
       };
-      setNotifications(prev => [newNotification, ...prev]);
+      setNotifications((prev) => [newNotification, ...prev]);
     }, 3000);
   };
 
   const handleLogMood = () => {
-    console.log('Navigating to mood tracker...');
+    console.log("Navigating to mood tracker...");
   };
 
   const handleAddGratitude = () => {
-    console.log('Navigating to gratitude journal...');
+    console.log("Navigating to gratitude journal...");
   };
 
   const handleStartVoChat = () => {
-    console.log('Starting VoChat session...');
+    console.log("Starting VoChat session...");
   };
 
   const markNotificationAsRead = (id) => {
-    setNotifications(prev =>
-      prev?.map(notif =>
+    setNotifications((prev) =>
+      prev?.map((notif) =>
         notif?.id === id ? { ...notif, read: true } : notif
       )
     );
   };
 
-  const unreadCount = notifications?.filter(n => !n?.read)?.length;
+  const unreadCount = notifications?.filter((n) => !n?.read)?.length;
 
   return (
     <>
@@ -104,17 +105,22 @@ const Dashboard = () => {
                   <Icon name="Bell" size={20} className="text-primary" />
                   <div>
                     <h3 className="text-sm font-medium text-foreground">
-                      You have {unreadCount} new notification{unreadCount > 1 ? 's' : ''}
+                      You have {unreadCount} new notification
+                      {unreadCount > 1 ? "s" : ""}
                     </h3>
                     <p className="text-xs text-text-secondary">
-                      {notifications?.find(n => !n?.read)?.message}
+                      {notifications?.find((n) => !n?.read)?.message}
                     </p>
                   </div>
                 </div>
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => markNotificationAsRead(notifications?.find(n => !n?.read)?.id)}
+                  onClick={() =>
+                    markNotificationAsRead(
+                      notifications?.find((n) => !n?.read)?.id
+                    )
+                  }
                   iconName="X"
                 >
                   Dismiss
@@ -139,7 +145,8 @@ const Dashboard = () => {
                     Analyzing Your Vibe...
                   </h3>
                   <p className="text-sm text-text-secondary mb-4">
-                    Please look at the camera while we detect your current emotional state.
+                    Please look at the camera while we detect your current
+                    emotional state.
                   </p>
                   <div className="flex justify-center">
                     <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
@@ -218,7 +225,11 @@ const Dashboard = () => {
               >
                 <div className="flex items-center space-x-3 mb-4">
                   <div className="w-10 h-10 bg-error/20 rounded-lg flex items-center justify-center">
-                    <Icon name="AlertTriangle" size={20} className="text-error" />
+                    <Icon
+                      name="AlertTriangle"
+                      size={20}
+                      className="text-error"
+                    />
                   </div>
                   <div>
                     <h3 className="text-sm font-semibold text-foreground">
@@ -229,7 +240,7 @@ const Dashboard = () => {
                     </p>
                   </div>
                 </div>
-                
+
                 <div className="space-y-2">
                   <Button
                     variant="outline"
@@ -264,17 +275,44 @@ const Dashboard = () => {
             className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4"
           >
             {[
-              { label: 'Days Active', value: '23', icon: 'Calendar', color: 'text-primary' },
-              { label: 'Mood Entries', value: '18', icon: 'Activity', color: 'text-success' },
-              { label: 'VoChat Sessions', value: '8', icon: 'MessageCircle', color: 'text-accent' },
-              { label: 'Community Posts', value: '6', icon: 'Users', color: 'text-secondary' }
+              {
+                label: "Days Active",
+                value: "23",
+                icon: "Calendar",
+                color: "text-primary",
+              },
+              {
+                label: "Mood Entries",
+                value: "18",
+                icon: "Activity",
+                color: "text-success",
+              },
+              {
+                label: "VoChat Sessions",
+                value: "8",
+                icon: "MessageCircle",
+                color: "text-accent",
+              },
+              {
+                label: "Community Posts",
+                value: "6",
+                icon: "Users",
+                color: "text-secondary",
+              },
             ]?.map((stat, index) => (
-              <div key={index} className="bg-card rounded-lg p-4 shadow-gentle border border-border">
+              <div
+                key={index}
+                className="bg-card rounded-lg p-4 shadow-gentle border border-border"
+              >
                 <div className="flex items-center space-x-2 mb-2">
                   <Icon name={stat?.icon} size={16} className={stat?.color} />
-                  <span className="text-xs text-text-secondary">{stat?.label}</span>
+                  <span className="text-xs text-text-secondary">
+                    {stat?.label}
+                  </span>
                 </div>
-                <div className="text-xl font-semibold text-foreground">{stat?.value}</div>
+                <div className="text-xl font-semibold text-foreground">
+                  {stat?.value}
+                </div>
               </div>
             ))}
           </motion.div>
